@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Página de Login — Exemplo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+  <main class="card" role="main">
+    <div class="brand">
+      <div class="logo">GL</div>
+      <div>
+        <h1>Entrar na sua conta</h1>
+        <p class="lead">Bem-vindo de volta — insira suas credenciais para continuar.</p>
+      </div>
+    </div>
+
+    <!-- Mensagem de erro (exemplo) -->
+    <div id="error" class="error" style="display:none;">Usuário ou senha incorretos.</div>
+
+    <form id="loginForm" novalidate>
+      <div>
+        <label for="login">Login</label>
+        <input id="login" name="login" type="login" class="input" placeholder="Username" required autocomplete="username">
+      </div>
+
+      <div>
+        <label for="password">Senha</label>
+        <div class="pwd-field">
+          <input id="password" name="password" type="password" class="input" placeholder="••••••••" required autocomplete="current-password" minlength="6">
+          <button type="button" class="toggle" id="togglePwd" aria-label="Mostrar senha">Mostrar</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="checkbox"><input type="checkbox" id="remember"> <span class="small">Lembrar-me</span></label>
+        <a href="#" class="small link">Esqueci a senha</a>
+      </div>
+
+      <button class="btn" type="submit">Entrar</button>
+
+      <div class="helper">
+        <span class="small">Ou</span>
+        <a href="#" class="link">Criar nova conta</a>
+      </div>
+    </form>
+
+    <p class="footer">Ao continuar, você concorda com os <a href="#" class="link">Termos de Serviço</a> e a <a href="#" class="link">Política de Privacidade</a>.</p>
+  </main>
+
+  <script>
+    // Toggle password visibility
+    const pwd = document.getElementById('password');
+    const toggle = document.getElementById('togglePwd');
+    toggle.addEventListener('click', ()=>{
+      if(pwd.type === 'password'){
+        pwd.type = 'text';
+        toggle.textContent = 'Esconder';
+      } else {
+        pwd.type = 'password';
+        toggle.textContent = 'Mostrar';
+      }
+    });
+
+    // Simple client-side validation + fake submit
+    const form = document.getElementById('loginForm');
+    const errorBox = document.getElementById('error');
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      errorBox.style.display = 'none';
+
+      // basic validity
+      if(!form.checkValidity()){
+        // let browser show default messages
+        form.reportValidity();
+        return;
+      }
+
+      const email = document.getElementById('email').value.trim();
+      const password = pwd.value;
+
+      // Demo: rejeita senha literal "123456"
+      if(password === '123456'){
+        errorBox.textContent = 'Senha fraca detectada. Tente outra.';
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      // Aqui você faria a requisição para o servidor (fetch / XHR)
+      // Simulando sucesso:
+      alert('Login realizado com sucesso — aqui você chamaria seu backend.');
+      // Exemplo: window.location.href = '/dashboard';
+    });
+  </script>
+</body>
+</html>
